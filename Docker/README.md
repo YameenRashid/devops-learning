@@ -1,1 +1,0 @@
-This repository contains my Docker practice work, including building containers to run web applications and websites. It also covers using Docker Compose to manage multi-container setups. I completed a mini project to apply what I learned in a real multi-service application.
