@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 name: CI Pipeline
 
 on:
@@ -29,3 +30,42 @@ jobs:
 
       - name: docker build check
         run: docker build -t test-image -f dockerfile .
+=======
+name: CI Pipeline
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  ci-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+    
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: run linting
+        run: flake8 .
+      
+      - name: run unit tests
+        run: pytest
+
+      - name: docker build check
+        run: docker build -t test-image -f dockerfile .
+
+
+      
+
+
+      
+>>>>>>> 780e5ef (task 1)

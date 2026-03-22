@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 flake8
 pytest
+=======
+pytest
+flake8
+>>>>>>> 780e5ef (task 1)
