@@ -1,0 +1,19 @@
+#!/bin/bash
+
+read -p "Enter first number: " num1
+read -p "Enter second number: " num2
+
+#addition
+echo "$num1 + $num2 = $((num1 + num2))"
+
+#subtraction
+echo "$num1 - $num2 = $((num1 - num2))"
+
+#multiplication
+echo "$num1 * $num2 = $((num1 * num2))"
+
+if [[ $num2 -eq 0 ]]; then
+    echo "Division by zero not allowed"
+else
+    echo "$num1 / $num2 = $((num1 / num2))"
+fi

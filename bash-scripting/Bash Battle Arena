@@ -1,0 +1,124 @@
+#!/bin/bash
+
+#LEVEL 1: The Basics
+mkdir Arena
+touch Arena/warrior.txt Arena/mage.txt Arena/archer.txt
+
+ls Arena
+
+
+#LEVEL 2: Variables and Loops
+for i in {1..10}; do echo "$i"; done
+
+
+#LEVEL 3: Conditional Statements
+if [ -f "Arena/hero.txt" ]; then
+    echo "Hero found!"
+else
+    echo "Hero missing!"
+fi
+
+
+#LEVEL 4: File Manipulation
+mkdir -p Backup
+cp Arena/*txt Backup/
+ls Backup
+
+
+#LEVEL 5: The Boss Battle - Combining Basics
+mkdir Battlefield
+touch Battlefield/knight.txt Battlefield/sorcerer.txt Battlefield/rogue.txt
+if [ -f "Battlefield/knight.txt" ]; then
+    mkdir -p Archive
+    mv Battlefield/knight.txt Archive/
+    echo "knight.txt has been moved"
+else
+    echo "knight.txt cannot be moved"
+fi
+
+echo "Battlefield Contents"
+ls Battlefield
+
+echo "Archive Contents"
+ls Archive
+
+
+#LEVEL 6: Argument Parsing
+if [ -z "$1" ]; then
+    echo "No file provided"
+    exit 1
+fi
+
+if [ ! -f "$1" ]; then
+    echo "File not found"
+    exit 1
+fi
+
+LINE_COUNT=$(wc -l < "$1")
+echo "The file $1 has $LINE_COUNT lines"
+
+
+#LEVEL 7: File Sorting Script
+DIRECTORY="Arena"
+
+if [ ! -d "$DIRECTORY" ]; then
+    echo "Directory does not exist"
+    exit 1
+fi
+find "$DIRECTORY" -type f -name "*.txt" -exec ls -lh {} + | sort -k 5,5 -h | awk '{ print $5, $9 }'
+
+
+#LEVEL 8: Multi-File Searcher
+DIRECTORY="Arena"
+SEARCH_TERM="Error"
+
+if [ ! -d "$DIRECTORY" ]; then
+    echo "Directory does not exist"
+    exit 1
+fi
+
+grep -l "$SEARCH_TERM" "$DIRECTORY"/*.log
+
+
+#LEVEL 9: Script to Monitor Directory Changes
+DIRECTORY="Arena"
+LOG_FILE="change_log.txt"
+
+if [ ! -d "$DIRECTORY" ]; then
+    echo "Directory does not exist."
+    exit 1
+fi
+
+fswatch -r "$DIRECTORY" | while read event; do
+    if [ -e "$event" ]; then
+        echo "$(date +'%Y-%m-%d %H:%M:%S') File modified/created: $event" >> "$LOG_FILE"
+    else
+        echo "$(date +'%Y-%m-%d %H:%M:%S') File deleted: $event" >> "$LOG_FILE"
+    fi
+done
+
+
+#LEVEL 10: Boss Battle 2 - Intermediate Scripting
+mkdir Arena_Boss
+
+for i in {1..5}
+do 
+    FILE="Arena_Boss/file$i.txt"
+    LINES=$((RANDOM % 11 + 10))
+    for j in $(seq 1 $LINES)
+    do
+        echo "This is line $j" >> "$FILE"
+    done
+done
+
+echo "Files sorted by size:"
+find Arena_Boss -type f -exec ls -lh {} + | sort -k 5,5 -h
+
+mkdir -p Victory_Archive
+for FILE in Arena_Boss/*.txt
+do 
+    if grep -q "Victory" "$FILE"; then
+        mv "$FILE" Victory_Archive/
+        echo "$FILE contains 'Victory' and has been moved to Victory_Archive"
+    fi
+done
